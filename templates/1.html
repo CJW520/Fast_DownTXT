@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="{{ url_for('static', path='jquery-3.6.0.min.js')}}" type="text/javascript"></script>
+    <script type="text/javascript">
+        function setCookie(name, value, days) {
+            const expires = new Date();
+            expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+            document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+        }
+        $(function () {
+            //根据url获取小说页面
+            $("#btn").click(function () {
+                $("#result").css({"width": "100%", "height": "800px"});
+                // alert($("#url").val());
+                $.ajax({
+                    url: "/get_html",
+                    type: "get",
+                    contentType: "application/json",
+                    data: {'url': $("#url").val()},
+                    success: function (data) {
+                        $("#result").text(data.data);
+                    },
+                    error: function (xhr, status, error) {
+                        alert("请检查网络连接或输入的网址是否正确");
+                    }
+                });
+            });
+            //根据url获取小说页面
+            $("#get_name").click(function () {
+                $.ajax({
+                    url: "/getname",
+                    type: "get",
+                    contentType: "application/json",
+                    data: {'strs': $("#title").val()},
+                    success: function (data) {
+                        $("#names").text(data.name);
+                    },
+                    error: function (xhr, status, error) {
+                        alert("请检查网络连接或输入的网址是否正确");
+                    }
+                });
+            });
+            //根据url和class获取标题与链接
+            $("#get_title").click(function () {
+                var ck = $('#ti').prop("checked");
+                if (ck)
+                    ck = 1
+                else
+                    ck = 0
+                $.ajax({
+                    url: "/getTU",
+                    type: "get",
+                    contentType: "application/json",
+                    data: {'strs': $("#by_tag").val(), 'ck': ck},
+                    success: function (data) {
+                        var str = "";
+                        for (var i = 0; i < data.data.length; i++) {
+                            str += data.data[i][0] + "," + data.data[i][1] + "\n";
+                        }
+                        $("#result").text(str);
+                    },
+                    error: function (xhr, status, error) {
+                        alert("请检查网络连接或输入网址是否正确");
+                    }
+                });
+            });
+
+            $("#save_txt").click(function () {
+                $.ajax({
+                    url: "/getText",
+                    type: "get",
+                    contentType: "application/json",
+                    data: {'urls': $("#urltitle").val(), 'tag': $("#content").val()},
+                    success: function (data) {
+                        // $("#result").text(data.data);
+                        alert(data.msg);
+                    },
+                    error: function (xhr, status, error) {
+                        alert("请检查网络连接或输入的网址是否正确");
+                    }
+                });
+
+            });
+            $("#down_txt").click(function () {
+                $.ajax({
+                    url: "/downtxt",
+                    type: "get",
+                    contentType: "application/json",
+                    data: null,
+                    success: function (data) {
+                        alert(data.msg);
+                    },
+                    error: function (xhr, status, error) {
+
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<div>
+    请输入网站:<input type="text" name="url" id="url" value="http://www.yiruan.info/article/190309.html">
+    <input type="button" id="btn" value="查询"><br>
+    标签1（获取小说名）<input id="title" type="text" value="//div[@id='info']/h1/text()">
+    <input type="button" value="提交" id="get_name"><span id="names"></span><br>
+    标签2（根据class获取标题与链接）<input id="by_tag" type="text" value="//div[@id='list']//dd/a">
+    勾选a标签内title章节名<input type="checkbox" name="title" id="ti" checked>
+    <input type="button" value="提交" id="get_title"><br>
+    <!--标签2（class）<input id="ids" type="text" name="tag2"><br>-->
+    <!--标签3<input id="ids" type="text" name="tag3"><br> -->
+    获取小说内容链接加前缀<input type="text" name="urls" id="urltitle" value="http://www.yiruan.info">
+    获取小说内容标签<input type="text" name="tag" id="content" value="//div[@id='content']/text()">
+    <input type="button" value="提交" id="save_txt">
+    <input type="button" value="下载txt" id="down_txt">
+</div>
+<div>
+    <textarea id="result" style="width: 100%; height: 500px;border: 1px solid #ccc;" readonly value="32121321321321">2321321</textarea>
+</div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script src="{{ url_for('static', path='jquery-3.6.0.min.js') }}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#login-btn").click(function () {
+                console.log(JSON.stringify({"user": $('#user').val(), "pwd": $('#pwd').val()}));
+                $.ajax({
+                    type: 'POST',
+                    url: '/login',
+                    contentType: 'application/json',
+                    data:  JSON.stringify({user: $('#user').val(), pwd: $('#pwd').val()}),
+                    success: function (response) {
+                        if (response.code==0) {
+                            // $.session.set('user', 'admin');
+                            sessionStorage.setItem('user', 'admin');
+                            window.location.href = '/home';
+                        }
+                        else {
+                            alert(response.msg);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+
+<form method="post" action="/login"   style="margin: 150px auto; width: 300px;">
+    <table>
+        <tr>
+            <td>Username:</td>
+            <td><input type="text" name="user" id="user" value="admin" required></td>
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td><input type="text" name="pwd" id="pwd" value="123456" required></td>
+        </tr>
+        <tr style="text-align: center;"  >
+            <td center><input type="button" id="login-btn" value="登录">
+            <td center><input type="button" id="reg-btn" value="注册"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

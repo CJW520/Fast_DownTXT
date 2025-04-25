@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>404 Not Found</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #d9534f;
+        }
+    </style>
+<!--    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.4.1.min.js"></script>-->
+<!--    <script src="{{ url_for('static', path='jquery-3.6.0.min.js') }}"></script>-->
+    <script src="{{ url_for('static', path='jquery-1.8.3.min.js') }}"></script>
+<!--    <script src="{{ url_for('static', path='jquery.cookie.js') }}"></script>-->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            // $("#getcookie").click(function () {
+                $.cookie("user", 'cjw');
+                // $.cookie.clear();
+                $.cookie("rele", 'admin');
+                console.log($.cookie());
+                console.log($.cookie(0) );
+                alert("Cookie: " + $.cookie(0));
+                alert("user Cookie: " + $.cookie("user"));
+            // });
+
+        })
+    </script>
+</head>
+<body>
+<h1>404 Not Found</h1>
+<p>The requested URL <code>{path}</code> was not found.</p>
+<a href="/">Go back 0</a>
+<a href="/1">Go back 1</a>
+<a href="/2">Go back 2</a>
+<button id="getcookie">Go back</button>
+</body>
+</html>
