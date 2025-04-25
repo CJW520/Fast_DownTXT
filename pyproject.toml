@@ -1,0 +1,5 @@
+[tool.aerich]
+tortoise_orm = "Config.Conn"
+location = "./migrations"
+src_folder = "./."
+123423 ='45dsa'
