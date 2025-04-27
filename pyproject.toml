@@ -3,13 +3,3 @@ tortoise_orm = "Config.Conn"
 location = "./migrations"
 src_folder = "./."
 
-
-
-
-#aerich init
-
-
-
-#aerich migrate
-
-#aerich upgrade
